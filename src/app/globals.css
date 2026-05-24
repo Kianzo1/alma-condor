@@ -1,26 +1,543 @@
 @import "tailwindcss";
 
+/* ============================================
+   ALMA CÓNDOR — Design System
+   Editorial Luxury · Cinematic · Tactile
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* === Surfaces & Backgrounds === */
+  --color-surface: #0c0a09;
+  --color-surface-dim: #0a0908;
+  --color-surface-bright: #3b3937;
+  --color-surface-lowest: #060504;
+  --color-surface-low: #121110;
+  --color-surface-container: #1a1816;
+  --color-surface-high: #24211f;
+  --color-surface-highest: #2e2a27;
+
+  /* === Brand: Malbec / Fuego === */
+  --color-malbec: #4a0e0e;
+  --color-malbec-soft: #77302d;
+  --color-malbec-glow: #ffb3ad;
+  --color-malbec-light: #cc726d;
+  --color-on-malbec: #5a1a19;
+
+  /* === Brand: Golden Sun === */
+  --color-gold: #d4af37;
+  --color-gold-bright: #eac349;
+  --color-gold-deep: #cca830;
+  --color-gold-dim: #574500;
+
+  /* === Neutrals: Bone, Slate, Andean === */
+  --color-bone: #ebe4dd;
+  --color-bone-muted: #d4c5be;
+  --color-slate: #a28c8a;
+  --color-slate-deep: #3a2d2b;
+  --color-andean: #494949;
+  --color-andean-soft: #c8c6c6;
+
+  /* === Semantic === */
+  --color-background: var(--color-surface);
+  --color-foreground: var(--color-bone);
+  --color-primary: var(--color-malbec);
+  --color-primary-foreground: var(--color-gold);
+  --color-accent: var(--color-gold);
+  --color-border: var(--color-slate-deep);
+  --color-muted: var(--color-bone-muted);
+
+  /* === Motion Curves (Emil / Linear / Apple-tier) === */
+  --ease-cinematic: cubic-bezier(0.32, 0.72, 0, 1);       /* iOS drawer */
+  --ease-mass: cubic-bezier(0.16, 1, 0.3, 1);              /* heavy mass settle */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);       /* Emil's strong ease-out for UI */
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);   /* strong on-screen movement */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* === Motion timings === */
+  --duration-press: 140ms;     /* button press feedback */
+  --duration-hover: 240ms;     /* hover color/border */
+  --duration-ui: 280ms;        /* dropdowns, toggles */
+  --duration-overlay: 480ms;   /* modals, drawers */
+  --duration-reveal: 720ms;    /* scroll entries */
+  --duration-cinematic: 1400ms;/* image grayscale, parallax */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ===== Color tokens ===== */
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+
+  --color-surface: var(--color-surface);
+  --color-surface-dim: var(--color-surface-dim);
+  --color-surface-bright: var(--color-surface-bright);
+  --color-surface-lowest: var(--color-surface-lowest);
+  --color-surface-low: var(--color-surface-low);
+  --color-surface-container: var(--color-surface-container);
+  --color-surface-high: var(--color-surface-high);
+  --color-surface-highest: var(--color-surface-highest);
+
+  --color-malbec: var(--color-malbec);
+  --color-malbec-soft: var(--color-malbec-soft);
+  --color-malbec-glow: var(--color-malbec-glow);
+  --color-malbec-light: var(--color-malbec-light);
+  --color-on-malbec: var(--color-on-malbec);
+
+  --color-gold: var(--color-gold);
+  --color-gold-bright: var(--color-gold-bright);
+  --color-gold-deep: var(--color-gold-deep);
+  --color-gold-dim: var(--color-gold-dim);
+
+  --color-bone: var(--color-bone);
+  --color-bone-muted: var(--color-bone-muted);
+  --color-slate: var(--color-slate);
+  --color-slate-deep: var(--color-slate-deep);
+  --color-andean: var(--color-andean);
+  --color-andean-soft: var(--color-andean-soft);
+
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-foreground);
+  --color-accent: var(--color-accent);
+  --color-border: var(--color-border);
+  --color-muted: var(--color-muted);
+
+  /* ===== Typography ===== */
+  --font-display: var(--font-eb-garamond), "EB Garamond", Georgia, serif;
+  --font-body: var(--font-manrope), "Manrope", system-ui, -apple-system, sans-serif;
+
+  /* ===== Radii (squircle premium) ===== */
+  --radius-pill: 9999px;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================
+   Base styles
+   ============================================ */
+* {
+  border-color: var(--color-border);
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-surface);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "kern", "liga";
+  overflow-x: hidden;
+}
+
+/* Display typography — EB Garamond, theatrical */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  font-feature-settings: "lnum", "kern", "liga", "dlig";
+}
+
+/* Editorial labels — UPPERCASE with letter-spacing */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.eyebrow.no-line::before {
+  display: none;
+}
+
+/* The "Ridge Line" — hairline divider */
+.ridge {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-slate-deep) 20%,
+    var(--color-gold) 50%,
+    var(--color-slate-deep) 80%,
+    transparent 100%
+  );
+}
+
+/* ============================================
+   Premium tactile surfaces — Double-Bezel
+   ============================================ */
+.bezel-shell {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.01) 50%,
+    rgba(212, 175, 55, 0.025) 100%
+  );
+  border-radius: var(--radius-4xl);
+  padding: 0.375rem;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(212, 175, 55, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.bezel-core {
+  position: relative;
+  background: var(--color-surface-container);
+  border-radius: calc(var(--radius-4xl) - 0.375rem);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.04),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+/* ============================================
+   Film Grain — physical paper feel
+   ============================================ */
+.grain-fixed {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+}
+
+/* Ambient Malbec glow */
+.glow-malbec {
+  box-shadow:
+    0 0 120px -20px rgba(74, 14, 14, 0.5),
+    0 0 60px -10px rgba(255, 179, 173, 0.15);
+}
+
+.glow-gold {
+  box-shadow:
+    0 0 80px -20px rgba(212, 175, 55, 0.35),
+    0 0 40px -10px rgba(212, 175, 55, 0.15);
+}
+
+/* ============================================
+   Scroll Reveal — IntersectionObserver target
+   (Emil: animate transform+opacity only; blur masks gap)
+   ============================================ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(32px);
+  filter: blur(4px);
+  transition:
+    opacity var(--duration-reveal) var(--ease-out-strong),
+    transform var(--duration-reveal) var(--ease-out-strong),
+    filter var(--duration-reveal) var(--ease-out-strong);
+  will-change: transform, opacity;
+}
+
+[data-reveal][data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  will-change: auto;
+}
+
+[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(3px);
+  transition:
+    opacity 560ms var(--ease-out-strong),
+    transform 560ms var(--ease-out-strong),
+    filter 680ms var(--ease-out-strong);
+}
+
+[data-reveal-stagger][data-visible="true"] > * {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Stagger 60ms per item (Emil: keep delays short, 30-80ms) */
+[data-reveal-stagger][data-visible="true"] > *:nth-child(1) { transition-delay: 0ms; }
+[data-reveal-stagger][data-visible="true"] > *:nth-child(2) { transition-delay: 60ms; }
+[data-reveal-stagger][data-visible="true"] > *:nth-child(3) { transition-delay: 120ms; }
+[data-reveal-stagger][data-visible="true"] > *:nth-child(4) { transition-delay: 180ms; }
+[data-reveal-stagger][data-visible="true"] > *:nth-child(5) { transition-delay: 240ms; }
+[data-reveal-stagger][data-visible="true"] > *:nth-child(6) { transition-delay: 300ms; }
+[data-reveal-stagger][data-visible="true"] > *:nth-child(7) { transition-delay: 360ms; }
+[data-reveal-stagger][data-visible="true"] > *:nth-child(8) { transition-delay: 420ms; }
+
+/* ============================================
+   Press feedback — Emil: buttons must feel responsive
+   Pressable elements scale down 3% on :active in 140ms ease-out
+   ============================================ */
+.press {
+  transition: transform var(--duration-press) var(--ease-out-strong);
+}
+.press:active {
+  transform: scale(0.97);
+}
+
+/* ============================================
+   Hover-only transforms (gated for touch devices)
+   ============================================ */
+@media (hover: none) or (pointer: coarse) {
+  .hover-only {
+    transform: none !important;
+  }
+}
+
+/* ============================================
+   Scroll progress indicator — thin gold line at top
+   Uses CSS scroll-driven animation (modern browsers) +
+   JS fallback via [data-progress] style
+   ============================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-gold) 30%,
+    var(--color-malbec-glow) 60%,
+    var(--color-gold)
+  );
+  transform-origin: 0 50%;
+  transform: scaleX(var(--progress, 0));
+  z-index: 60;
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+/* ============================================
+   Gold shimmer sweep — headline signature text
+   ============================================ */
+@keyframes goldShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.text-shimmer {
+  background: linear-gradient(
+    105deg,
+    var(--color-gold-deep) 20%,
+    var(--color-gold-bright) 45%,
+    #fff8d6 50%,
+    var(--color-gold-bright) 55%,
+    var(--color-gold-deep) 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldShimmer 5s linear infinite;
+}
+
+/* ============================================
+   Scroll indicator — bouncing line at hero bottom
+   ============================================ */
+@keyframes scrollPulse {
+  0%   { transform: scaleY(1); opacity: 0.5; }
+  50%  { transform: scaleY(0.4); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0.5; }
+}
+
+.scroll-indicator-line {
+  transform-origin: top center;
+  animation: scrollPulse 2.2s ease-in-out infinite;
+}
+
+/* ============================================
+   Marquee — infinite scrolling text
+   ============================================ */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 50s linear infinite;
+  will-change: transform;
+}
+
+/* ============================================
+   Magnetic Button — Emil rules:
+   Press feedback is fast (140ms). Hover style is slower (240ms).
+   Asymmetric: enter slow, release snap.
+   ============================================ */
+.btn-magnetic {
+  transition:
+    transform var(--duration-press) var(--ease-out-strong),
+    background-color var(--duration-hover) ease,
+    border-color var(--duration-hover) ease,
+    color var(--duration-hover) ease,
+    box-shadow var(--duration-hover) ease;
+}
+.btn-magnetic:active {
+  transform: scale(0.97);
+}
+
+/* ============================================
+   Custom Cursor — luxury gold dot + ring
+   Activated by JS adding .custom-cursor to <html>
+   ============================================ */
+.custom-cursor,
+.custom-cursor * {
+  cursor: none !important;
+}
+
+/* Ambient glow — soft radial that trails heavily behind cursor */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.055) 0%,
+    rgba(212, 175, 55, 0.01) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;
+}
+
+/* Outer ring — medium spring lag, expands over interactive elements */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(212, 175, 55, 0.65);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  will-change: transform;
+  transition:
+    width 280ms var(--ease-out-strong),
+    height 280ms var(--ease-out-strong),
+    border-color 280ms ease,
+    opacity 280ms ease;
+}
+
+.cursor-ring--expanded {
+  width: 54px;
+  height: 54px;
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* Inner dot — snaps immediately */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--color-gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+
+/* Hide on touch/no-hover devices */
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring,
+  .cursor-glow {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   Clip-path image reveal — curtain wipe effect
+   Used as an alternative to the blur reveal
+   ============================================ */
+[data-reveal-img] {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1100ms var(--ease-cinematic);
+}
+
+[data-reveal-img][data-visible="true"] {
+  clip-path: inset(0 0 0% 0);
+}
+
+/* ============================================
+   Selection + Scrollbar
+   ============================================ */
+::selection {
+  background: var(--color-malbec);
+  color: var(--color-gold);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-lowest);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-slate-deep);
+  border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-deep);
+}
+
+/* ============================================
+   Focus rings — accessible + premium
+   ============================================ */
+*:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ============================================
+   Reduced motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal],
+  [data-reveal-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
