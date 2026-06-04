@@ -7,6 +7,8 @@ type StatCounterProps = {
   value: string;
   /** Total animation duration in ms. Default 1400. */
   duration?: number;
+  /** If true, the count restarts every time the element re-enters viewport. Default true. */
+  replay?: boolean;
   className?: string;
 };
 
@@ -49,10 +51,11 @@ function parseValue(value: string): {
 export function StatCounter({
   value,
   duration = 1400,
+  replay = true,
   className = "",
 }: StatCounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const fired = useRef(false);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -63,33 +66,50 @@ export function StatCounter({
 
     const { target, format } = parseValue(value);
 
+    const runCount = () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      const t0 = performance.now();
+      const tick = (now: number) => {
+        const progress = Math.min((now - t0) / duration, 1);
+        // easeOutQuart — fast start, smooth finish
+        const eased = 1 - (1 - progress) ** 4;
+        el.textContent = format(eased * target);
+        if (progress < 1) {
+          rafRef.current = requestAnimationFrame(tick);
+        } else {
+          el.textContent = value; // lock to exact original string
+          rafRef.current = null;
+        }
+      };
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    let firedOnce = false;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting || fired.current) return;
-        fired.current = true;
-
-        const t0 = performance.now();
-        const tick = (now: number) => {
-          const progress = Math.min((now - t0) / duration, 1);
-          // easeOutQuart — fast start, smooth finish
-          const eased = 1 - (1 - progress) ** 4;
-          el.textContent = format(eased * target);
-          if (progress < 1) {
-            requestAnimationFrame(tick);
-          } else {
-            el.textContent = value; // lock to exact original string
+        if (entry.isIntersecting) {
+          // If replay enabled — always restart. Otherwise fire once only.
+          if (replay || !firedOnce) {
+            runCount();
+            firedOnce = true;
           }
-        };
-
-        requestAnimationFrame(tick);
-        observer.disconnect();
+        } else if (replay) {
+          // Reset to zero (in the parsed format) when leaving viewport
+          // so when it re-enters the count restarts visibly.
+          if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+          el.textContent = format(0);
+        }
       },
       { threshold: 0.4 }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, [value, duration]);
+    return () => {
+      observer.disconnect();
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, [value, duration, replay]);
 
   // Initial render shows the final value — good for SSR
   return (

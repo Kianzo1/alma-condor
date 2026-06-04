@@ -10,6 +10,11 @@ type RevealProps = {
    * "clip"    — cinematic curtain-wipe from bottom (clip-path reveal)
    */
   mode?: "single" | "stagger" | "clip";
+  /**
+   * Slide direction for mode="single".
+   * "up" (default) | "left" | "right" | "scale"
+   */
+  direction?: "up" | "left" | "right" | "scale";
   /** Once visible, stay visible (default true). */
   once?: boolean;
   className?: string;
@@ -28,6 +33,7 @@ type RevealProps = {
 export function Reveal({
   children,
   mode = "single",
+  direction = "up",
   once = true,
   className,
   as: Tag = "div",
@@ -56,17 +62,20 @@ export function Reveal({
     return () => io.disconnect();
   }, [once, rootMargin]);
 
-  const dataAttr =
+  // Build the data attribute object for this reveal mode/direction
+  const dataAttrs: Record<string, string> =
     mode === "stagger"
-      ? "data-reveal-stagger"
+      ? { "data-reveal-stagger": "" }
       : mode === "clip"
-      ? "data-reveal-img"
-      : "data-reveal";
+      ? { "data-reveal-img": "" }
+      // For "single": pass direction as value so CSS can target [data-reveal="left"] etc.
+      // Empty string = default "up" (translateY)
+      : { "data-reveal": direction === "up" ? "" : direction };
 
   return (
     <Tag
       ref={ref}
-      {...{ [dataAttr]: "" }}
+      {...dataAttrs}
       data-visible={visible ? "true" : "false"}
       className={className}
     >

@@ -13,19 +13,21 @@ const NAV_LINKS = [
   { href: "/reservas", label: "Reservar" },
 ];
 
+// Desktop nav only shows these (no Reservar — that lives in hamburger + mobile)
+const DESKTOP_NAV = NAV_LINKS.filter((l) => l.href !== "/reservas");
+
 export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 50);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll when overlay is open
   useEffect(() => {
     if (typeof document === "undefined") return;
     document.body.style.overflow = open ? "hidden" : "";
@@ -34,116 +36,131 @@ export function Header() {
     };
   }, [open]);
 
-  const closeOverlay = () => setOpen(false);
-
   return (
     <>
-      {/* ============ Floating Island Nav ============ */}
+      {/* ============================================================
+          HEADER — Full-width editorial, collapses on scroll
+      ============================================================ */}
       <header
-        className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-          scrolled ? "top-4" : "top-6"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+          scrolled
+            ? "bg-[#080605]/90 backdrop-blur-2xl"
+            : "bg-transparent"
         }`}
       >
-        {/* Outer shell (Double-Bezel) */}
+        {/* Inner container */}
         <div
-          className={`relative rounded-full p-1 border border-white/[0.06] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-            scrolled
-              ? "bg-white/[0.03] backdrop-blur-2xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.06)]"
-              : "bg-transparent"
+          className={`max-w-[1440px] mx-auto px-6 md:px-10 flex items-center justify-between transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+            scrolled ? "h-[60px]" : "h-[80px] md:h-[96px]"
           }`}
         >
-          {/* Inner core */}
-          <div className="flex items-center gap-2 rounded-full">
-            {/* Brand mark */}
-            <Link
-              href="/"
-              className="group/brand flex items-center gap-2.5 pl-4 pr-2 py-2 rounded-full transition-colors duration-500"
-              aria-label="Alma Cóndor"
-            >
-              <CondorMark
-                size={22}
-                className="text-bone transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/brand:text-gold group-hover/brand:rotate-[-8deg]"
-              />
-              <span className="hidden sm:flex flex-col leading-none">
-                <span className="font-display text-[13px] tracking-[0.22em] uppercase text-bone group-hover/brand:text-gold transition-colors duration-500">
-                  Alma Cóndor
-                </span>
-              </span>
-            </Link>
-
-            {/* Hairline divider */}
-            <span className="hidden lg:block h-6 w-px bg-white/[0.08]" />
-
-            {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-1 px-1">
-              {NAV_LINKS.map((link) => {
-                const active =
-                  link.href === "/"
-                    ? pathname === "/"
-                    : pathname.startsWith(link.href);
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`group/link relative px-3.5 py-2 rounded-full text-[10.5px] font-semibold tracking-[0.22em] uppercase transition-colors duration-500 ${
-                      active ? "text-gold" : "text-bone-muted hover:text-bone"
-                    }`}
-                  >
-                    {/* Active dot */}
-                    {active && (
-                      <span className="absolute left-1 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-gold" />
-                    )}
-                    <span className={active ? "pl-2" : ""}>{link.label}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-
-            {/* CTA + Hamburger */}
-            <div className="flex items-center gap-1.5 pl-1 pr-1">
-              <div className="hidden md:block">
-                <Button
-                  href="/reservas"
-                  variant="primary"
-                  size="sm"
-                  arrow
-                  className="!h-9"
-                >
-                  Reservar
-                </Button>
-              </div>
-
-              {/* Hamburger — morphs to X */}
-              <button
-                onClick={() => setOpen((v) => !v)}
-                className="relative w-10 h-10 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] flex items-center justify-center transition-colors duration-500"
-                aria-label={open ? "Cerrar menú" : "Abrir menú"}
-                aria-expanded={open}
+          {/* ---- BRAND ---- */}
+          <Link
+            href="/"
+            className="group flex items-center gap-3.5 select-none"
+            aria-label="Alma Cóndor — Inicio"
+          >
+            <CondorMark
+              size={scrolled ? 18 : 24}
+              className="text-bone group-hover:text-gold shrink-0 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
+            />
+            <div className="overflow-hidden flex flex-col justify-center">
+              {/* Name */}
+              <span
+                className={`font-body font-bold uppercase tracking-[0.3em] text-bone group-hover:text-gold leading-none transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                  scrolled ? "text-[10.5px]" : "text-[12.5px] md:text-[13.5px]"
+                }`}
               >
-                <span className="relative w-4 h-4 flex items-center justify-center">
-                  <span
-                    className={`absolute h-px bg-bone transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-                      open ? "w-4 rotate-45" : "w-4 -translate-y-1.5"
-                    }`}
-                  />
-                  <span
-                    className={`absolute h-px bg-bone transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-                      open ? "w-0 opacity-0" : "w-4 opacity-100"
-                    }`}
-                  />
-                  <span
-                    className={`absolute h-px bg-bone transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-                      open ? "w-4 -rotate-45" : "w-3 translate-y-1.5"
-                    }`}
-                  />
-                </span>
-              </button>
+                Alma Cóndor
+              </span>
+              {/* Sub-label — fades away on scroll */}
+              <span
+                className={`font-body font-light uppercase tracking-[0.22em] text-bone/35 leading-none mt-1 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                  scrolled
+                    ? "opacity-0 -translate-y-2 h-0 mt-0 pointer-events-none"
+                    : "opacity-100 translate-y-0 text-[8px] md:text-[8.5px]"
+                }`}
+              >
+                Parrilla · Cava · Mendoza
+              </span>
             </div>
+          </Link>
+
+          {/* ---- DESKTOP NAV — clean text only, no Reservar, no indicators ---- */}
+          <nav
+            className="hidden lg:flex items-center"
+            aria-label="Navegación principal"
+          >
+            {DESKTOP_NAV.map((link) => {
+              const active =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-5 py-3 text-[10.5px] font-semibold tracking-[0.24em] uppercase transition-colors duration-500 ${
+                    active
+                      ? "text-bone"
+                      : "text-bone/70 hover:text-bone"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* ---- RIGHT ACTIONS — hamburger only on desktop ---- */}
+          <div className="flex items-center gap-2">
+            {/* Hamburger — only on mobile/tablet, hidden on desktop */}
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className="w-10 h-10 flex items-center justify-center ml-1 lg:hidden"
+              aria-label={open ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={open}
+            >
+              <span className="relative w-[22px] h-4 flex flex-col justify-between">
+                {/* Top line */}
+                <span
+                  className={`block h-px w-full bg-bone transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] origin-center ${
+                    open ? "rotate-45 translate-y-[7px]" : ""
+                  }`}
+                />
+                {/* Middle line */}
+                <span
+                  className={`block h-px bg-bone transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                    open ? "w-0 opacity-0 self-center" : "w-[14px] opacity-100 self-end"
+                  }`}
+                />
+                {/* Bottom line */}
+                <span
+                  className={`block h-px w-full bg-bone transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] origin-center ${
+                    open ? "-rotate-45 -translate-y-[7px]" : ""
+                  }`}
+                />
+              </span>
+            </button>
           </div>
         </div>
+
+        {/* Hairline separator — materializes on scroll */}
+        <div
+          aria-hidden="true"
+          className={`absolute bottom-0 left-0 right-0 h-px transition-opacity duration-700 ${
+            scrolled ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.18) 20%, rgba(255,255,255,0.06) 50%, rgba(212,175,55,0.18) 80%, transparent 100%)",
+          }}
+        />
       </header>
 
-      {/* ============ Full-screen Overlay Menu ============ */}
+      {/* ============================================================
+          FULL-SCREEN OVERLAY MENU
+      ============================================================ */}
       <div
         className={`fixed inset-0 z-40 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
           open
@@ -153,30 +170,32 @@ export function Header() {
         aria-hidden={!open}
       >
         {/* Backdrop */}
-        <div className="absolute inset-0 bg-surface/85 backdrop-blur-3xl" />
+        <div className="absolute inset-0 bg-[#080605]/92 backdrop-blur-3xl" />
 
-        {/* Ambient malbec glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-malbec/20 rounded-full blur-[140px]" />
+        {/* Malbec glow orb */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-malbec/20 rounded-full blur-[160px] pointer-events-none" />
 
-        {/* Subtle condor centerpiece */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-[0.04] pointer-events-none">
-          <CondorMark size={720} className="text-gold" />
+        {/* Giant condor watermark */}
+        <div className="absolute inset-0 flex items-center justify-end pr-0 opacity-[0.03] pointer-events-none overflow-hidden">
+          <CondorMark size={800} className="text-gold -mr-32" />
         </div>
 
-        {/* Content */}
-        <div className="relative h-full flex flex-col items-center justify-center px-6">
-          <span
-            className={`eyebrow no-line mb-12 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-              open
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-8"
-            }`}
-            style={{ transitionDelay: open ? "120ms" : "0ms" }}
-          >
-            Navegación
-          </span>
+        {/* Grid layout — left index + right big links */}
+        <div className="relative h-full max-w-[1440px] mx-auto px-8 md:px-14 flex flex-col justify-center">
 
-          <nav className="flex flex-col items-center gap-2 md:gap-3">
+          {/* Top strip */}
+          <div
+            className={`flex items-center gap-4 mb-16 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+              open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+            style={{ transitionDelay: open ? "80ms" : "0ms" }}
+          >
+            <span className="w-6 h-px bg-gold/40" />
+            <span className="eyebrow no-line text-[9px]">Menú de Navegación</span>
+          </div>
+
+          {/* Nav links — staggered curtain rise */}
+          <nav className="flex flex-col gap-1 md:gap-0">
             {NAV_LINKS.map((link, i) => {
               const active =
                 link.href === "/"
@@ -186,44 +205,49 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={closeOverlay}
-                  className={`group/nav font-display italic text-5xl md:text-7xl leading-none transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-                    open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-                  } ${
-                    active
-                      ? "text-gold"
-                      : "text-bone hover:text-gold-bright"
+                  onClick={() => setOpen(false)}
+                  className={`group/nav relative w-fit transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                    open
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-14"
                   }`}
                   style={{
-                    transitionDelay: open
-                      ? `${200 + i * 80}ms`
-                      : "0ms",
+                    transitionDelay: open ? `${180 + i * 70}ms` : "0ms",
                   }}
                 >
-                  <span className="relative inline-flex items-center gap-6">
-                    <span className="text-[10px] not-italic font-body font-semibold tracking-[0.3em] text-gold/60 self-start mt-4">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="relative">
-                      {link.label}
-                      <span className="absolute -bottom-1 left-0 right-0 h-px bg-gold scale-x-0 origin-left transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/nav:scale-x-100" />
-                    </span>
+                  {/* Index number */}
+                  <span className="absolute left-0 top-[0.65em] text-[9px] font-body tracking-[0.25em] text-gold/40 -translate-x-8 hidden md:block">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
+                  {/* Link text */}
+                  <span
+                    className={`font-display italic text-[clamp(3rem,9vw,8rem)] leading-[1.0] tracking-[-0.02em] transition-colors duration-500 ${
+                      active
+                        ? "text-gold"
+                        : "text-bone/80 group-hover/nav:text-bone"
+                    }`}
+                  >
+                    {link.label}
+                  </span>
+                  {/* Hover underline */}
+                  <span className="absolute bottom-1 left-0 right-0 h-px bg-gold/30 scale-x-0 origin-left transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/nav:scale-x-100" />
                 </Link>
               );
             })}
           </nav>
 
-          {/* Footer line in overlay */}
+          {/* Bottom strip */}
           <div
-            className={`absolute bottom-12 left-0 right-0 px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] tracking-[0.3em] uppercase text-slate transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-              open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            className={`mt-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-t border-white/[0.05] pt-8 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+              open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
-            style={{ transitionDelay: open ? "600ms" : "0ms" }}
+            style={{ transitionDelay: open ? "560ms" : "0ms" }}
           >
-            <span>Ruta 7 · Luján de Cuyo · Mendoza</span>
-            <span className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+            <span className="text-[10px] tracking-[0.3em] uppercase text-bone/30">
+              Ruta 7 · Luján de Cuyo · Mendoza · Argentina
+            </span>
+            <span className="flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-bone/30">
+              <span className="w-1.5 h-1.5 rounded-full bg-gold/60 animate-pulse shrink-0" />
               Hogar encendido · 19:00 → 00:00
             </span>
           </div>

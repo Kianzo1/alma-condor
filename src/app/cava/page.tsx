@@ -4,6 +4,7 @@ import { Button } from "@/components/Button";
 import { CondorMark } from "@/components/CondorMark";
 import { Reveal } from "@/components/Reveal";
 import { Marquee } from "@/components/Marquee";
+import { SplitText } from "@/components/SplitText";
 
 export const metadata: Metadata = {
   title: "La Cava · Espíritus Ancestrales",
@@ -11,8 +12,12 @@ export const metadata: Metadata = {
     "La cava subterránea de Alma Cóndor. Malbec de altura, blancos de montaña y cosechas únicas del Valle de Uco.",
 };
 
-const IMG_CELLAR_HERO =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDr7I5IqiUH8NmyQHuHAESMj40tgc3_uNr0gvQplPqlHr6atMWGz1HDyRjRlEwTFHEa5tzgx3D2aurIcAJ3tmTTP6YB1r83-zBFMqO92abyI6OGkkrWPAzDqkOH-_vJAln0ghQ3lMzRc5SRNY8SLc-yf0CNofe0dazpbn7kbvAhhCO2lPdSa4TsiyO9B5JPg3dhyFIknS8LCKMrM31YjxtNeG5qVWpE_8eMbp2KKODrS2LDdlyDghej9Upx9mHYpcpgda9RVL5oNKTk";
+const IMG_CAVA_1      = "/images/cava-hero.jpg";
+const IMG_CAVA_2      = "/images/cava-2.jpg";
+const IMG_CAVA_3      = "/images/cava-3.jpg";
+const IMG_CAVA_4      = "/images/cava-4.jpg";
+
+const IMG_CELLAR_HERO = IMG_CAVA_3;
 
 const IMG_MALBEC_POUR =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuD29JHVeCaGJluAJfACW8CF3vWqomVhnzXTqlteH-Z3-HVR46y6Dd1mDnY9G0CqbXfH40gfmm_1H4qsb5NTvStNv-oC-WGKgoNKrDpaUDXbuCTGjt9yNVThfnWo7wTB45ChbjqZRvjI6yHgF74nkzzqm9nFO0yM_6oF2doRpT_MwhsID8eh8IIJpxbpqW6FXo4WZ-gQjzt1EEWRPrIuKIniuqkdddqc_lGxk_Dr__xhNuxrFXOLNIF_O1VafhT0oiuUZ5R7J9KT2CoD";
@@ -99,48 +104,54 @@ export default function CavaPage() {
             fill
             priority
             sizes="100vw"
-            className="object-cover opacity-55"
+            className="object-cover opacity-60"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-surface/60 via-transparent to-surface" />
+          <div className="absolute inset-0 bg-gradient-to-b from-surface/70 via-surface/20 to-surface" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,rgba(12,10,9,0.85)_100%)]" />
-          <div className="absolute top-1/3 right-1/3 w-[500px] h-[500px] bg-malbec/20 blur-[160px] rounded-full" />
+          <div className="absolute top-1/3 right-1/3 w-[500px] h-[500px] bg-malbec/20 blur-[160px] rounded-full animate-pulse-slow" />
         </div>
 
         <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-10">
-          <Reveal as="div" mode="stagger" className="max-w-5xl mx-auto text-center space-y-10">
-            <div className="flex items-center justify-center gap-4 text-[10px] tracking-[0.4em] uppercase text-bone-muted">
+          <div className="max-w-5xl mx-auto text-center space-y-10">
+            <Reveal as="div" className="flex items-center justify-center gap-4 text-[10px] tracking-[0.4em] uppercase text-bone-muted">
               <span className="h-px w-12 bg-gold" />
               <span className="text-gold">Vol. II — La Cava Subterránea</span>
               <span className="h-px w-12 bg-gold" />
-            </div>
+            </Reveal>
 
             <h1 className="font-display text-[clamp(3rem,11vw,9rem)] leading-[0.88] text-bone tracking-[-0.04em]">
-              Espíritus
+              <SplitText by="char" stagger={40}>Espíritus</SplitText>
               <br />
               <span className="italic font-normal text-gold/95 text-[clamp(2rem,7vw,5.5rem)]">
-                ancestrales.
+                <SplitText by="char" stagger={35} delay={500}>ancestrales.</SplitText>
               </span>
             </h1>
 
-            <p className="font-display italic text-xl md:text-2xl text-bone-muted leading-relaxed max-w-2xl mx-auto">
+            <Reveal as="p" className="font-display italic text-xl md:text-2xl text-bone-muted leading-relaxed max-w-2xl mx-auto">
               Bajo las raíces de piedra de los Andes, curamos una selección que respira la altitud y el fuego de Mendoza.
-            </p>
+            </Reveal>
 
-            <div className="flex items-center justify-center gap-6 pt-4">
+            <Reveal as="div" className="flex items-center justify-center gap-6 pt-4">
               <span className="h-px w-24 bg-gradient-to-r from-transparent to-gold/40" />
               <span className="text-[10px] tracking-[0.4em] uppercase text-bone-muted">
                 720 etiquetas · 47 productores
               </span>
               <span className="h-px w-24 bg-gradient-to-l from-transparent to-gold/40" />
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
+        </div>
+
+        {/* Scroll hint */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+          <span className="text-[9px] tracking-[0.4em] uppercase text-bone">Descender</span>
+          <span className="w-px h-12 bg-gradient-to-b from-bone via-bone/30 to-transparent" />
         </div>
       </section>
 
       {/* Marquee divider */}
       <section className="relative border-y border-white/[0.04] bg-surface-low/40 py-7">
         <Marquee
-          speed={75}
+          speed={100}
           items={[
             "MALBEC DE ALTURA",
             "—",
@@ -180,7 +191,7 @@ export default function CavaPage() {
               <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] text-bone tracking-[-0.02em]">
                 Gran Reserva{" "}
                 <span className="italic text-gold/95">
-                  Cóndor de los Andes
+                  <SplitText by="word" stagger={80}>Cóndor de los Andes</SplitText>
                 </span>{" "}
                 2017.
               </h2>
@@ -198,7 +209,7 @@ export default function CavaPage() {
                     alt="Malbec rubí intenso en copa de cristal"
                     fill
                     sizes="(min-width: 1024px) 40vw, 100vw"
-                    className="object-cover grayscale group-hover/img:grayscale-0 transition-all duration-[1500ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
+                    className="object-cover grayscale group-hover/img:grayscale-0 img-reveal"
                   />
                 </div>
               </div>
@@ -264,7 +275,9 @@ export default function CavaPage() {
               </div>
               <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] text-bone tracking-[-0.02em]">
                 Donde el{" "}
-                <span className="italic text-gold/95">Malbec</span>
+                <span className="italic text-gold/95">
+                  <SplitText by="char" stagger={30}>Malbec</SplitText>
+                </span>
                 <br />
                 respira con dificultad.
               </h2>
@@ -280,72 +293,164 @@ export default function CavaPage() {
             </div>
           </Reveal>
 
-          <Reveal as="div" mode="stagger" className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {MALBECS.map((wine) => (
-              <article key={wine.name} className="bezel-shell group/wine">
-                <div className="bezel-core p-8 h-full flex flex-col gap-6 transition-colors duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/wine:bg-surface-high">
-                  {/* Top: tag + year */}
-                  <div className="flex items-start justify-between gap-4">
-                    {wine.tag ? (
-                      <span className="text-[9.5px] tracking-[0.25em] uppercase text-gold border border-gold/30 bg-gold/5 px-2.5 py-1 rounded-full">
-                        {wine.tag}
-                      </span>
-                    ) : (
-                      <span className="text-[9.5px] tracking-[0.3em] uppercase text-bone-muted">
-                        {wine.altitude}
-                      </span>
-                    )}
-                    <span className="font-display text-3xl text-gold tabular-nums">
-                      {wine.year}
-                    </span>
-                  </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {MALBECS.map((wine, i) => (
+              <Reveal key={wine.name} direction={i === 0 ? "left" : i === 1 ? "up" : "right"} rootMargin="0px 0px -40px 0px">
+                <article className="bezel-shell group/wine h-full">
+                  <div className="bezel-core p-8 md:p-10 h-full flex flex-col gap-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/wine:bg-surface-high relative overflow-hidden">
 
-                  {/* Image or condor */}
-                  {wine.image ? (
-                    <div className="relative aspect-[3/4] overflow-hidden rounded-xl">
-                      <Image
-                        src={wine.image}
-                        alt={wine.name}
-                        fill
-                        sizes="(min-width: 768px) 30vw, 100vw"
-                        className="object-contain transition-transform duration-[1500ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/wine:scale-105"
-                      />
-                    </div>
-                  ) : (
-                    <div className="aspect-[3/4] flex items-center justify-center bg-surface-lowest/50 rounded-xl">
-                      <CondorMark
-                        size={64}
-                        className="text-gold/30 group-hover/wine:text-gold transition-colors duration-700"
-                      />
-                    </div>
-                  )}
+                    {/* Animated gold left border */}
+                    <div className="absolute left-0 top-0 w-[2px] h-0 bg-gradient-to-b from-gold via-gold/60 to-transparent group-hover/wine:h-full transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]" />
 
-                  {/* Bottom */}
-                  <div className="space-y-3 mt-auto">
-                    <h3 className="font-display text-2xl text-bone leading-tight">
-                      {wine.name}
-                    </h3>
-                    <p className="font-display italic text-sm text-bone-muted">
-                      {wine.region}
-                    </p>
-                    <div className="h-px bg-white/[0.05]" />
-                    <p className="text-xs text-bone-muted/80 leading-relaxed font-light">
+                    {/* Year — big display */}
+                    <div className="flex items-start justify-between gap-4">
+                      <span className="font-display italic text-[4.5rem] leading-none text-gold/15 group-hover/wine:text-gold/25 transition-colors duration-700 select-none tabular-nums">
+                        {wine.year}
+                      </span>
+                      {wine.tag && (
+                        <span className="text-[9px] tracking-[0.25em] uppercase text-gold border border-gold/30 bg-gold/5 px-2.5 py-1 rounded-full shrink-0 mt-1">
+                          {wine.tag}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Divider */}
+                    <div className="h-px bg-gradient-to-r from-gold/30 via-white/[0.04] to-transparent group-hover/wine:from-gold/60 transition-all duration-700" />
+
+                    {/* Name */}
+                    <div className="space-y-2">
+                      <h3 className="font-display text-2xl md:text-3xl text-bone leading-tight group-hover/wine:text-shimmer transition-all duration-500">
+                        {wine.name}
+                      </h3>
+                      <p className="font-display italic text-sm text-gold/60">
+                        {wine.region}
+                      </p>
+                    </div>
+
+                    {/* Notes */}
+                    <p className="font-display italic text-sm text-bone-muted/80 leading-relaxed flex-1">
                       {wine.notes}
                     </p>
-                    {wine.price && (
-                      <div className="flex items-center justify-between pt-3">
-                        <span className="text-[9.5px] tracking-[0.3em] uppercase text-slate">
-                          Botella
-                        </span>
-                        <span className="font-display text-2xl text-gold">
+
+                    {/* Footer */}
+                    <div className="flex items-center justify-between pt-4 border-t border-white/[0.05] mt-auto">
+                      <span className="flex items-center gap-2 text-[9.5px] tracking-[0.25em] uppercase text-slate">
+                        <span className="w-1 h-1 rounded-full bg-gold/50" />
+                        {wine.altitude ?? "Valle de Uco"}
+                      </span>
+                      {wine.price ? (
+                        <span className="font-display text-2xl text-gold tabular-nums">
                           {wine.price}
                         </span>
-                      </div>
-                    )}
+                      ) : (
+                        <CondorMark size={14} className="text-gold/40 group-hover/wine:text-gold transition-colors duration-500" />
+                      )}
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          EDITORIAL BREAK — cava gallery
+      ================================================================ */}
+      <section className="relative py-24 md:py-36 px-6 md:px-10 border-y border-white/[0.04] overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-malbec/10 blur-[160px] rounded-full" />
+        </div>
+
+        <div className="relative max-w-[1400px] mx-auto space-y-10">
+          {/* Eyebrow */}
+          <Reveal as="div" className="flex items-center gap-4 text-[10px] tracking-[0.3em] uppercase text-bone-muted">
+            <span className="h-px w-8 bg-gold/50" />
+            <span className="text-gold">La Cava · Alma Cóndor</span>
+            <span className="h-px w-8 bg-gold/50" />
+          </Reveal>
+
+          {/* Main grid: large left + two stacked right */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5 items-stretch">
+
+            {/* Large — cava-2 */}
+            <Reveal as="div" direction="left" className="md:col-span-7">
+              <div className="bezel-shell group h-full">
+                <div className="bezel-core relative h-[400px] md:h-[600px] overflow-hidden">
+                  <Image
+                    src={IMG_CAVA_2}
+                    alt="La cava subterránea de Alma Cóndor"
+                    fill
+                    sizes="(min-width: 1024px) 55vw, 100vw"
+                    loading="lazy"
+                    className="object-cover object-center group-hover:scale-[1.04] transition-transform duration-[2200ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface/70 via-transparent to-transparent" />
+                  <div className="absolute top-5 left-5 flex items-center gap-2 rounded-full bg-surface/60 backdrop-blur-md border border-white/[0.08] px-3.5 py-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+                    <span className="text-[9px] tracking-[0.28em] uppercase text-bone/80">Subterránea</span>
+                  </div>
+                  <div className="absolute bottom-6 left-6 space-y-1">
+                    <p className="text-[10px] tracking-[0.35em] uppercase text-gold/60">Mendoza · 1.450m</p>
+                    <p className="font-display italic text-2xl md:text-3xl text-bone/95 leading-tight">
+                      Donde el silencio<br />se vuelve vino.
+                    </p>
                   </div>
                 </div>
-              </article>
-            ))}
+              </div>
+            </Reveal>
+
+            {/* Two stacked — cava-2 y cava-3 */}
+            <div className="md:col-span-5 flex flex-col gap-4 md:gap-5">
+              <Reveal as="div" direction="right">
+                <div className="bezel-shell group">
+                  <div className="bezel-core relative h-[190px] md:h-[290px] overflow-hidden">
+                    <Image
+                      src={IMG_CAVA_1}
+                      alt="Cava de vinos Alma Cóndor"
+                      fill
+                      sizes="(min-width: 1024px) 40vw, 100vw"
+                      loading="lazy"
+                      className="object-cover object-center group-hover:scale-[1.05] transition-transform duration-[2000ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-surface/60 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 right-4">
+                      <span className="font-display italic text-gold/50 text-4xl select-none">01</span>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+
+              <Reveal as="div" direction="right" rootMargin="0px 0px -30px 0px">
+                <div className="bezel-shell group">
+                  <div className="bezel-core relative h-[190px] md:h-[290px] overflow-hidden">
+                    <Image
+                      src={IMG_CAVA_3}
+                      alt="Botellas en la cava de Alma Cóndor"
+                      fill
+                      sizes="(min-width: 1024px) 40vw, 100vw"
+                      loading="lazy"
+                      className="object-cover object-center group-hover:scale-[1.05] transition-transform duration-[2000ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-surface/60 via-transparent to-transparent" />
+                    <div className="absolute bottom-4 right-4">
+                      <span className="font-display italic text-gold/50 text-4xl select-none">02</span>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+
+          </div>
+
+          {/* Caption */}
+          <Reveal as="div" className="flex items-center justify-between pt-4 border-t border-white/[0.05]">
+            <p className="font-display italic text-bone/30 text-sm">
+              720 etiquetas · curadas en cava propia · temperatura controlada.
+            </p>
+            <span className="text-[10px] tracking-[0.3em] uppercase text-gold/40 shrink-0">
+              Valle de Uco
+            </span>
           </Reveal>
         </div>
       </section>
@@ -474,11 +579,6 @@ export default function CavaPage() {
             </div>
           </Reveal>
 
-          <Reveal as="div" className="flex justify-center mt-12">
-            <Button href="#" variant="ghost" size="lg">
-              Solicitar Carta Completa
-            </Button>
-          </Reveal>
         </div>
       </section>
 

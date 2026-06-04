@@ -4,6 +4,7 @@ import { Button } from "@/components/Button";
 import { CondorMark } from "@/components/CondorMark";
 import { Reveal } from "@/components/Reveal";
 import { Marquee } from "@/components/Marquee";
+import { SplitText } from "@/components/SplitText";
 import { HexagonIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
@@ -12,14 +13,10 @@ export const metadata: Metadata = {
     "La Carta de Alma Cóndor: capítulos del fuego ancestral. Cortes de autor, entradas mendocinas, vegetales de la huerta de altura.",
 };
 
-const IMG_HERO =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCSeduKW0_KvcN05Qe-Kx0TqmCJtf8udMhbnD5jK1P1Wj3e8_sOgx_PzAKu0LLmQ9pa30o15Rh70mAiQAEwyz_gmDRPveKgC10_oHzzBexzF4uFEs1khZyKgeYhRq8-LfSN656SzxXgl9IhBBsZSJdnNj6eXTeLqerX0vIxdXT3vXoy0pMxYo5ik9ipc6Yv5fVxiEJA8kNQD5QHgNcpTyq096ISMwXeAm0pv1DRxO-7YQ9VNcx2lcO7qshVqyzxKdGer6k-OAQVA50I";
-
-const IMG_EMPANADAS =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuB4q4-dOU86sNmUprqLlPStWaGzAThcGu2ypG82ViHIRpnHMHIZfNZopu7UWvp8nVs9H5-eOrKygZ7qdcXxKfTg7o3FhzjlMJlScm56eYE1Fy9t_1tkoXYk8i6kLEuQLUT2vfDN1nfc6yuf6hH76eyCl3Ftqr-064c-wgxm1IZ95v6_LdIWNMmJypoMTVHCl3cd-jK90aDk1_Q0sv_njrlHIW-ayDhPlQfzXPGMDPAgEJqs8VqYXOMZM4PZbDWXc9SiolgjBEqA4Rjp";
-
-const IMG_CORTE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDnDmZtoV0CD2w49TaneIWGUsCJQXo1Y84H7FFMO35feCWDIfvkyC-3-uz8x0A8EWD2U9SqEtFxNmCs7ATL1mcVTn3pNjJZPXeEjsEhBWWL9NS7TdejoNwYkxVwEsSgqDkUGn-nv78aJwCmWaRBypDUwSYULjtGJFZcrOhNyesmfSLTVme0EdP9twsCYbT4vKTIOmVbfQx4TfmY2vEzMqt2MIMOAdiOCOvQBHhaxTxyD9Jwf7z5AlJ-K1gBTjJuhQ6sBCjZRfQ4bRwZ";
+const IMG_HERO   = "/images/comida1.jpg";
+const IMG_CORTE  = "/images/comida2.jpg";
+const IMG_GRAPES = "/images/vino2.jpg";
+const IMG_HUERTA = "/images/huerta-vegetales.jpg";
 
 // ============ Menu data ============
 type Dish = {
@@ -64,16 +61,26 @@ const APERTURA: Dish[] = [
 const CORTES: Dish[] = [
   {
     numeral: "II.i",
+    name: "Ribeye Valle de Uco",
+    description:
+      "Maduración en seco 45 días. Sellado sobre llama abierta de quebracho para una costra perfecta. Terminado con sal rosada andina y ajos confitados al humo.",
+    price: "$28.500",
+    tag: "La Insignia",
+    origin: "Valle de Uco · 45 días dry-aged",
+    pairing: "Malbec Gran Reserva 2017",
+  },
+  {
+    numeral: "II.ii",
     name: "Ojo de Bife Alma Cóndor",
     description:
-      "450g de pura nobleza. Infiltración excepcional, sellado a fuego fuerte para una costra de quebracho. Acompañado de ajos confitados al humo.",
+      "450g de pura nobleza. Infiltración excepcional, sellado a fuego fuerte sobre brasas de quebracho. Acompañado de ajos confitados al humo.",
     price: "$28.500",
-    tag: "La Insignia del Chef",
+    tag: "Del Chef",
     origin: "Pampa Húmeda · 21 días dry-aged",
     pairing: "Gran Reserva Cóndor 2017",
   },
   {
-    numeral: "II.ii",
+    numeral: "II.iii",
     name: "Entraña Premium",
     description:
       "La favorita de la casa. Limpia y jugosa, servida al punto exacto con provenzal de hierbas frescas de montaña.",
@@ -82,7 +89,7 @@ const CORTES: Dish[] = [
     pairing: "Malbec Catena Zapata",
   },
   {
-    numeral: "II.iii",
+    numeral: "II.iv",
     name: "Bife de Chorizo Wagyu",
     description:
       "Wagyu argentino de cuarta cruza. Marbling perfecto, terminado sobre brasas de quebracho con flor de sal del Atlántico.",
@@ -92,7 +99,7 @@ const CORTES: Dish[] = [
     pairing: "Petit Verdot Reserva",
   },
   {
-    numeral: "II.iv",
+    numeral: "II.v",
     name: "Cordero Patagónico",
     description:
       "A las brasas durante seis horas, untado con chimichurri de menta silvestre y reducción de Malbec.",
@@ -135,14 +142,20 @@ const CHAPTER_NAV = [
   { id: "huerta", roman: "III", label: "La Huerta de Altura" },
 ];
 
-// ============ DishCard component ============
-function DishCard({ dish }: { dish: Dish }) {
+// ============ DishCard ============
+function DishCard({ dish, delay = 0 }: { dish: Dish; delay?: number }) {
   return (
-    <article className="group/dish bezel-shell">
-      <div className="bezel-core p-6 md:p-8 transition-colors duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/dish:bg-surface-high">
-        {/* Top row: numeral + tag */}
+    <article
+      className="group/dish bezel-shell"
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <div className="bezel-core p-6 md:p-8 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover/dish:bg-surface-high relative overflow-hidden">
+        {/* Animated gold accent line on hover */}
+        <div className="absolute left-0 top-0 w-[2px] h-0 bg-gradient-to-b from-gold to-gold/0 group-hover/dish:h-full transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]" />
+
+        {/* Top row */}
         <div className="flex items-start justify-between gap-4 mb-5">
-          <span className="font-display italic text-base text-gold/70 tabular-nums">
+          <span className="font-display italic text-base text-gold/60 tabular-nums group-hover/dish:text-gold transition-colors duration-500">
             {dish.numeral}
           </span>
           {dish.tag && (
@@ -154,7 +167,7 @@ function DishCard({ dish }: { dish: Dish }) {
 
         {/* Name + price */}
         <div className="flex items-baseline justify-between gap-4 mb-4">
-          <h3 className="font-display text-2xl md:text-3xl text-bone leading-tight tracking-[-0.01em]">
+          <h3 className="font-display text-2xl md:text-3xl text-bone leading-tight tracking-[-0.01em] group-hover/dish:text-shimmer transition-all duration-500">
             {dish.name}
           </h3>
           {dish.price && (
@@ -164,8 +177,8 @@ function DishCard({ dish }: { dish: Dish }) {
           )}
         </div>
 
-        {/* Hairline */}
-        <div className="h-px bg-gradient-to-r from-gold/40 via-white/[0.04] to-transparent mb-5" />
+        {/* Animated hairline */}
+        <div className="h-px bg-gradient-to-r from-gold/20 via-white/[0.04] to-transparent mb-5 group-hover/dish:from-gold/50 transition-all duration-700" />
 
         {/* Description */}
         <p className="font-display italic text-base text-bone-muted leading-relaxed mb-6">
@@ -197,10 +210,9 @@ export default function MenuPage() {
   return (
     <>
       {/* ================================================================
-          COVER — Like opening a leather-bound menu
+          COVER
       ================================================================ */}
       <section className="relative min-h-[100dvh] flex items-center overflow-hidden pt-28 pb-20">
-        {/* Cinematic backdrop */}
         <div className="absolute inset-0 z-0">
           <Image
             src={IMG_HERO}
@@ -208,17 +220,16 @@ export default function MenuPage() {
             fill
             priority
             sizes="100vw"
-            className="object-cover opacity-50"
+            className="object-cover opacity-45"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-surface/70 via-surface/40 to-surface" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(12,10,9,0.85)_100%)]" />
-          {/* Subtle floating malbec */}
-          <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-malbec/15 blur-[140px] rounded-full" />
+          <div className="absolute inset-0 bg-gradient-to-b from-surface/80 via-surface/30 to-surface" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(12,10,9,0.9)_100%)]" />
+          <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-malbec/15 blur-[140px] rounded-full animate-pulse-slow" />
         </div>
 
         <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-10">
           <Reveal as="div" mode="stagger" className="max-w-5xl mx-auto text-center space-y-10">
-            {/* Top eyebrow */}
+            {/* Eyebrow */}
             <div className="flex items-center justify-center gap-4 text-[10px] tracking-[0.4em] uppercase text-bone-muted">
               <span className="h-px w-12 bg-gold" />
               <span className="text-gold">Vol. I — MMXXV</span>
@@ -227,32 +238,33 @@ export default function MenuPage() {
 
             {/* Cover title */}
             <h1 className="font-display text-[clamp(3rem,11vw,9rem)] leading-[0.88] text-bone tracking-[-0.04em]">
-              La Carta
+              <SplitText by="char" stagger={40}>La Carta</SplitText>
               <br />
-              <span className="italic font-normal text-gold/95 text-[clamp(2rem,7vw,5.5rem)]">
-                del Ritual.
+              <span className="inline-block italic font-normal text-shimmer text-[clamp(2rem,7vw,5.5rem)]">
+                <SplitText by="char" stagger={35} delay={400}>del Ritual.</SplitText>
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="font-display italic text-xl md:text-2xl text-bone-muted leading-relaxed max-w-2xl mx-auto pt-2">
+            <Reveal as="p" className="font-display italic text-xl md:text-2xl text-bone-muted leading-relaxed max-w-2xl mx-auto">
               Tres capítulos. Doce pasos. Una sola hoguera.
-            </p>
+            </Reveal>
 
-            {/* Decorative cóndor + line */}
+            {/* Decorative cóndor */}
             <div className="flex items-center justify-center gap-6 pt-6">
               <span className="h-px w-24 bg-gradient-to-r from-transparent to-gold/40" />
               <CondorMark size={28} className="text-gold" />
               <span className="h-px w-24 bg-gradient-to-l from-transparent to-gold/40" />
             </div>
 
-            {/* Chapter nav — pills */}
+            {/* Chapter nav */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-8">
-              {CHAPTER_NAV.map((ch) => (
+              {CHAPTER_NAV.map((ch, i) => (
                 <a
                   key={ch.id}
                   href={`#${ch.id}`}
                   className="group/chip rounded-full bezel-shell press hover:scale-[1.03] transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]"
+                  style={{ transitionDelay: `${i * 80}ms` }}
                 >
                   <span className="block bezel-core px-5 py-2.5 rounded-full">
                     <span className="flex items-center gap-3 text-[10px] tracking-[0.25em] uppercase text-bone-muted group-hover/chip:text-gold transition-colors duration-500">
@@ -266,36 +278,10 @@ export default function MenuPage() {
           </Reveal>
         </div>
 
-        {/* Bottom hint */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-          <span className="text-[9px] tracking-[0.4em] uppercase text-bone">
-            Abrir
-          </span>
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+          <span className="text-[9px] tracking-[0.4em] uppercase text-bone">Abrir</span>
           <span className="w-px h-12 bg-gradient-to-b from-bone via-bone/30 to-transparent" />
         </div>
-      </section>
-
-      {/* Marquee divider — chef's whisper */}
-      <section className="relative border-y border-white/[0.04] bg-surface-low/40 py-7">
-        <Marquee
-          speed={70}
-          items={[
-            "EL FUEGO ES EL ÚNICO LENGUAJE",
-            "QUE LA CARNE ENTIENDE",
-            "—",
-            "A LA PERFECCIÓN",
-            "—",
-            "CHEF MATEO SALVATIERRA",
-            "—",
-          ].map((p, i) => (
-            <span
-              key={i}
-              className="font-display italic text-2xl md:text-3xl text-bone-muted/60 flex items-center gap-12"
-            >
-              {p}
-            </span>
-          ))}
-        />
       </section>
 
       {/* ================================================================
@@ -303,10 +289,11 @@ export default function MenuPage() {
       ================================================================ */}
       <section id="apertura" className="relative py-32 md:py-44 px-6 md:px-10">
         <div className="max-w-[1400px] mx-auto">
-          {/* Chapter heading — massive numeral + title split */}
+
+          {/* Chapter heading */}
           <Reveal as="div" className="grid grid-cols-1 md:grid-cols-12 gap-10 items-end mb-20">
             <div className="md:col-span-3">
-              <div className="font-display italic text-[clamp(8rem,15vw,14rem)] leading-[0.8] text-gold/15 select-none">
+              <div className="font-display italic text-[clamp(8rem,15vw,14rem)] leading-[0.8] text-gold/10 select-none">
                 I
               </div>
             </div>
@@ -318,7 +305,9 @@ export default function MenuPage() {
               </div>
               <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] text-bone tracking-[-0.02em]">
                 Los primeros{" "}
-                <span className="italic text-gold/95">susurros</span>
+                <span className="inline-block italic text-shimmer">
+                  <SplitText by="char" stagger={30}>susurros</SplitText>
+                </span>
                 <br />
                 del horno de barro.
               </h2>
@@ -329,58 +318,113 @@ export default function MenuPage() {
             </div>
           </Reveal>
 
-          {/* Asymmetric layout: image left small, dishes right */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-            {/* Image column — sticky */}
-            <Reveal as="div" className="lg:col-span-5 lg:sticky lg:top-32 lg:self-start">
-              <div className="bezel-shell">
-                <div className="bezel-core relative aspect-[4/5]">
+          {/* Dish list — staggered rows, no images */}
+          <div className="space-y-4">
+            {APERTURA.map((dish, i) => (
+              <Reveal key={dish.numeral} direction="left" rootMargin="0px 0px -40px 0px">
+                <DishCard dish={dish} delay={i * 80} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Marquee divider */}
+      <section className="relative border-y border-white/[0.04] bg-surface-low/40 py-8 overflow-hidden">
+        <Marquee
+          speed={75}
+          items={[
+            "EL FUEGO ES EL ÚNICO LENGUAJE",
+            "—",
+            "QUE LA CARNE ENTIENDE",
+            "—",
+            "A LA PERFECCIÓN",
+            "—",
+            "CHEF MATEO SALVATIERRA",
+            "—",
+          ].map((p, i) => (
+            <span
+              key={i}
+              className="font-display italic text-xl md:text-2xl text-bone-muted/50 flex items-center gap-10"
+            >
+              {p}
+            </span>
+          ))}
+        />
+      </section>
+
+      {/* ================================================================
+          EDITORIAL BREAK — single cinematic image + quote
+      ================================================================ */}
+      <section className="relative overflow-hidden py-24 md:py-36 px-6 md:px-10 bg-surface border-y border-white/[0.04]">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-malbec/8 blur-[180px] rounded-full" />
+        </div>
+
+        <div className="relative max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+
+            {/* Image */}
+            <Reveal as="div" direction="left" className="lg:col-span-6">
+              <div className="bezel-shell group">
+                <div className="bezel-core relative h-[420px] md:h-[520px] overflow-hidden">
                   <Image
-                    src={IMG_EMPANADAS}
-                    alt="Empanadas mendocinas con chimichurri"
+                    src={IMG_GRAPES}
+                    alt="Uvas Malbec — Valle de Uco"
                     fill
-                    sizes="(min-width: 1024px) 40vw, 100vw"
-                    className="object-cover transition-transform duration-[1500ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.03]"
+                    sizes="(min-width: 1024px) 45vw, 100vw"
+                    loading="lazy"
+                    className="object-cover object-center group-hover:scale-[1.05] transition-transform duration-[2200ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
                   />
-                  {/* Floating spec card */}
-                  <div className="absolute bottom-5 left-5 right-5 rounded-3xl bg-surface/85 backdrop-blur-md border border-white/[0.06] p-4">
-                    <div className="flex items-center gap-3">
-                      <CondorMark size={20} className="text-gold shrink-0" />
-                      <div className="flex-1">
-                        <div className="text-[9.5px] tracking-[0.3em] uppercase text-bone-muted">
-                          Horno de Barro · 320°C
-                        </div>
-                        <div className="font-display italic text-base text-bone">
-                          Leña de vid &amp; olivo
-                        </div>
-                      </div>
-                    </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface/60 via-transparent to-transparent" />
+                  <div className="absolute top-5 left-5 flex items-center gap-2 rounded-full bg-surface/65 backdrop-blur-md border border-white/[0.07] px-3.5 py-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-malbec-glow animate-pulse" />
+                    <span className="text-[9px] tracking-[0.28em] uppercase text-bone/80">Malbec · 2017</span>
+                  </div>
+                  <div className="absolute bottom-5 left-5 right-5">
+                    <span className="font-display italic text-bone/90 text-2xl">El terruño</span>
                   </div>
                 </div>
               </div>
             </Reveal>
 
-            {/* Dishes column */}
-            <Reveal as="div" mode="stagger" className="lg:col-span-7 space-y-5">
-              {APERTURA.map((dish) => (
-                <DishCard key={dish.numeral} dish={dish} />
-              ))}
+            {/* Text */}
+            <Reveal as="div" direction="right" className="lg:col-span-6 space-y-8">
+              <div className="eyebrow text-[10px]">El Terruño · Valle de Uco</div>
+              <h2 className="font-display text-bone leading-[0.92] tracking-[-0.03em]" style={{ fontSize: "clamp(2rem,5vw,4rem)" }}>
+                De la{" "}
+                <span className="italic text-shimmer">
+                  <SplitText by="char" stagger={40}>vid</SplitText>
+                </span>
+                {" "}a la{" "}
+                <span className="italic text-shimmer">
+                  <SplitText by="char" stagger={40} delay={200}>brasa.</SplitText>
+                </span>
+              </h2>
+              <div className="ridge" />
+              <p className="font-display italic text-base md:text-lg text-bone-muted leading-relaxed">
+                Doscientos kilómetros de altura, viento norte y suelos aluviales.
+                Cada uva y cada corte cuenta la misma historia: la del Valle de Uco.
+              </p>
+              <div className="flex items-center gap-4 pt-2 text-[10px] tracking-[0.3em] uppercase text-gold/60">
+                <span className="w-6 h-px bg-gold/40" />
+                Valle de Uco · 1.450m sobre el mar
+              </div>
             </Reveal>
+
           </div>
         </div>
       </section>
 
       {/* ================================================================
           CHAPTER II — EL CORAZÓN DE LA BRASA
-          (the heart of the menu — most dramatic treatment)
       ================================================================ */}
       <section
         id="cortes"
         className="relative py-32 md:py-44 px-6 md:px-10 bg-surface-low border-y border-white/[0.04] overflow-hidden"
       >
-        {/* Ambient malbec glow */}
+        {/* Ambient glow */}
         <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-malbec/15 blur-[160px] rounded-full pointer-events-none" />
-        {/* Background condor */}
         <div className="absolute inset-0 flex items-center justify-center opacity-[0.025] pointer-events-none">
           <CondorMark size={900} className="text-bone" />
         </div>
@@ -396,7 +440,9 @@ export default function MenuPage() {
               </div>
               <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] text-bone tracking-[-0.02em]">
                 Donde el{" "}
-                <span className="italic text-gold/95">cóndor</span>
+                <span className="inline-block italic text-shimmer">
+                  <SplitText by="char" stagger={30}>cóndor</SplitText>
+                </span>
                 <br />
                 acaricia el fuego.
               </h2>
@@ -406,27 +452,26 @@ export default function MenuPage() {
               </p>
             </div>
             <div className="md:col-span-3 md:order-2 text-right">
-              <div className="font-display italic text-[clamp(8rem,15vw,14rem)] leading-[0.8] text-gold/15 select-none">
+              <div className="font-display italic text-[clamp(8rem,15vw,14rem)] leading-[0.8] text-gold/10 select-none">
                 II
               </div>
             </div>
           </Reveal>
 
-          {/* Hero corte — full bleed card with image */}
+          {/* Hero corte — full bleed with image */}
           <Reveal as="div" className="mb-10">
             <article className="bezel-shell group/hero">
               <div className="bezel-core relative grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
-                {/* Image side */}
+                {/* Image */}
                 <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[480px]">
                   <Image
                     src={IMG_CORTE}
-                    alt="Ojo de Bife Alma Cóndor"
+                    alt="Ribeye Valle de Uco — La Insignia"
                     fill
                     sizes="(min-width: 1024px) 45vw, 100vw"
-                    className="object-cover transition-transform duration-[1500ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/hero:scale-[1.03]"
+                    className="object-cover transition-transform duration-[1800ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/hero:scale-[1.04]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface/40 lg:to-transparent" />
-                  {/* Floating badges */}
                   <div className="absolute top-6 left-6 flex flex-wrap gap-2">
                     <span className="rounded-full bg-surface/70 backdrop-blur-md border border-gold/30 px-4 py-2 text-[10px] tracking-[0.3em] uppercase text-gold flex items-center gap-2">
                       <HexagonIcon size={11} className="text-gold" />
@@ -435,52 +480,51 @@ export default function MenuPage() {
                   </div>
                   <div className="absolute bottom-6 left-6 rounded-full bg-surface/70 backdrop-blur-md border border-white/[0.06] px-4 py-2">
                     <span className="text-[10px] tracking-[0.3em] uppercase text-bone-muted">
-                      21 días dry-aged
+                      45 días dry-aged
                     </span>
                   </div>
                 </div>
 
-                {/* Text side */}
+                {/* Text */}
                 <div className="p-8 md:p-12 lg:p-14 flex flex-col justify-between gap-8">
                   <div className="space-y-6">
-                    <span className="font-display italic text-base text-gold/70 tabular-nums">
-                      II.i
-                    </span>
+                    <span className="font-display italic text-base text-gold/70 tabular-nums">II.i</span>
                     <h3 className="font-display text-4xl md:text-5xl text-bone leading-[0.95] tracking-[-0.02em]">
-                      Ojo de Bife{" "}
-                      <span className="italic text-gold/95">Alma Cóndor</span>
+                      Ribeye{" "}
+                      <span className="italic text-shimmer">Valle de Uco</span>
                     </h3>
-                    <div className="h-px bg-gradient-to-r from-gold/40 to-transparent w-32" />
+                    <div className="h-px bg-gradient-to-r from-gold/40 to-transparent w-32 group-hover/hero:w-full transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]" />
                     <p className="font-display italic text-lg text-bone-muted leading-relaxed">
-                      450g de pura nobleza. Infiltración excepcional, sellado a fuego fuerte para una costra de quebracho. Acompañado de ajos confitados al humo.
+                      Maduración en seco 45 días. Sellado sobre llama abierta de quebracho para una costra perfecta. Terminado con sal rosada andina y ajos confitados al humo.
                     </p>
                   </div>
 
                   <div className="space-y-5">
                     <div className="flex items-baseline justify-between gap-4 pt-6 border-t border-white/[0.06]">
-                      <span className="text-[10px] tracking-[0.3em] uppercase text-bone-muted">
-                        Precio
-                      </span>
-                      <span className="font-display text-4xl text-gold tabular-nums">
-                        $28.500
-                      </span>
+                      <span className="text-[10px] tracking-[0.3em] uppercase text-bone-muted">Precio</span>
+                      <span className="font-display text-4xl text-gold tabular-nums">$28.500</span>
                     </div>
                     <div className="flex items-center gap-3 text-[10px] tracking-[0.25em] uppercase text-slate">
                       <CondorMark size={12} className="text-gold/70" />
-                      Maridaje sugerido · Gran Reserva Cóndor 2017
+                      Maridaje sugerido · Malbec Gran Reserva 2017
                     </div>
+                    <Button href="/reservas" variant="gold" size="sm" className="w-full justify-center">
+                      Reservar esta noche
+                    </Button>
                   </div>
                 </div>
               </div>
             </article>
           </Reveal>
 
-          {/* Rest of the cortes — 2-column grid */}
-          <Reveal as="div" mode="stagger" className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {CORTES.slice(1).map((dish) => (
-              <DishCard key={dish.numeral} dish={dish} />
+          {/* Rest of cortes — staggered */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {CORTES.slice(1).map((dish, i) => (
+              <Reveal key={dish.numeral} direction={i % 2 === 0 ? "left" : "right"} rootMargin="0px 0px -40px 0px">
+                <DishCard dish={dish} delay={i * 60} />
+              </Reveal>
             ))}
-          </Reveal>
+          </div>
         </div>
       </section>
 
@@ -489,10 +533,11 @@ export default function MenuPage() {
       ================================================================ */}
       <section id="huerta" className="relative py-32 md:py-44 px-6 md:px-10">
         <div className="max-w-[1400px] mx-auto">
+
           {/* Chapter heading */}
           <Reveal as="div" className="grid grid-cols-1 md:grid-cols-12 gap-10 items-end mb-20">
             <div className="md:col-span-3">
-              <div className="font-display italic text-[clamp(8rem,15vw,14rem)] leading-[0.8] text-gold/15 select-none">
+              <div className="font-display italic text-[clamp(8rem,15vw,14rem)] leading-[0.8] text-gold/10 select-none">
                 III
               </div>
             </div>
@@ -504,7 +549,9 @@ export default function MenuPage() {
               </div>
               <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] text-bone tracking-[-0.02em]">
                 Los frutos{" "}
-                <span className="italic text-gold/95">silenciosos</span>
+                <span className="inline-block italic text-shimmer">
+                  <SplitText by="char" stagger={30}>silenciosos</SplitText>
+                </span>
                 <br />
                 de la cordillera.
               </h2>
@@ -515,12 +562,38 @@ export default function MenuPage() {
             </div>
           </Reveal>
 
-          {/* 2x2 grid of compact dish cards */}
-          <Reveal as="div" mode="stagger" className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {HUERTA.map((dish) => (
-              <DishCard key={dish.numeral} dish={dish} />
-            ))}
+          {/* Single editorial image */}
+          <Reveal as="div" className="mb-12">
+            <div className="bezel-shell group">
+              <div className="bezel-core relative h-[260px] md:h-[340px] overflow-hidden">
+                <Image
+                  src={IMG_HUERTA}
+                  alt="Vegetales de estación de los Andes"
+                  fill
+                  sizes="100vw"
+                  loading="lazy"
+                  className="object-cover object-center group-hover:scale-[1.04] transition-transform duration-[2000ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface/80 via-surface/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-surface/50 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-8 space-y-1">
+                  <div className="text-[9px] tracking-[0.38em] uppercase text-gold/70">Huerta de Altura · 1.450m</div>
+                  <p className="font-display italic text-2xl md:text-3xl text-bone/90 leading-tight">
+                    De la tierra al fuego,<br />sin escalas.
+                  </p>
+                </div>
+              </div>
+            </div>
           </Reveal>
+
+          {/* 2x2 grid — cards only, no per-dish images */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+            {HUERTA.map((dish, i) => (
+              <Reveal key={dish.numeral} direction={i % 2 === 0 ? "left" : "right"} rootMargin="0px 0px -30px 0px">
+                <DishCard dish={dish} delay={i * 70} />
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -542,8 +615,10 @@ export default function MenuPage() {
             <blockquote className="font-display italic text-3xl md:text-5xl text-bone leading-[1.15] tracking-[-0.01em]">
               &ldquo;El vino es el alma de la mesa,
               <br />
-              <span className="text-gold/95">
-                pero el fuego es su espíritu.
+              <span className="inline-block text-shimmer">
+                <SplitText by="word" stagger={80} delay={300}>
+                  pero el fuego es su espíritu.
+                </SplitText>
               </span>
               &rdquo;
             </blockquote>

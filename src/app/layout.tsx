@@ -5,7 +5,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { NoiseOverlay } from "@/components/NoiseOverlay";
 import { ScrollProgress } from "@/components/ScrollProgress";
-import { CursorFollower } from "@/components/CursorFollower";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 const ebGaramond = EB_Garamond({
   variable: "--font-eb-garamond",
@@ -69,12 +70,15 @@ export default function RootLayout({
       className={`${ebGaramond.variable} ${manrope.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-surface text-bone">
-        <CursorFollower />
+        {/* Cinematic opening veil — pure CSS, off-main-thread */}
+        <div className="hero-veil" aria-hidden="true" />
+        <SmoothScroll />
         <ScrollProgress />
         <NoiseOverlay />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ScrollToTop />
       </body>
     </html>
   );
