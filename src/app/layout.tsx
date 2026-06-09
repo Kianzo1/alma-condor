@@ -79,6 +79,41 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <ScrollToTop />
+
+        {/* ── Kianzo back-to-portfolio button ── */}
+        <a
+          href="https://kianzo.org/portfolio"
+          style={{
+            position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 9999,
+            display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+            padding: '0.7rem 1.5rem', borderRadius: '8px',
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.12em',
+            textTransform: 'uppercase', textDecoration: 'none',
+            color: 'rgba(255,255,255,0.55)',
+            background: 'rgba(10,10,10,0.85)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            backdropFilter: 'blur(12px)',
+            transition: 'color .4s, border-color .4s, box-shadow .4s',
+          }}
+          onMouseEnter={e => {
+            const el = e.currentTarget as HTMLAnchorElement;
+            el.style.color = '#fff';
+            el.style.borderColor = '#C0001A';
+            el.style.boxShadow = '0 0 6px #C0001A, 0 0 22px #C0001A, 0 0 55px rgba(192,0,26,.45)';
+          }}
+          onMouseLeave={e => {
+            const el = e.currentTarget as HTMLAnchorElement;
+            el.style.color = 'rgba(255,255,255,0.55)';
+            el.style.borderColor = 'rgba(255,255,255,0.2)';
+            el.style.boxShadow = 'none';
+          }}
+        >
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+            <path d="M10 2L4 7L10 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          Portfolio
+        </a>
       </body>
     </html>
   );
